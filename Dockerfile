@@ -16,6 +16,10 @@ COPY . /opt/apache-livy-src
 # to our docker file and makefile, so lets just remove them from the build :)
 RUN cd  /opt/apache-livy-src && rm Dockerfile* Makefile 
 
+# Enable console mode: This will keep the server in foreground. Suitable for docker deployment
+ENV CONSOLE_MODE true
+
+## Joel TODO: Test seems flaky on integration build on CircleCI.. investigate.
 RUN cd /opt/apache-livy-src && \
   mvn package -DskipTests
 

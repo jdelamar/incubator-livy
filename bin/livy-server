@@ -117,19 +117,25 @@ start_livy_server() {
       fi
     fi
 
-    livy_rotate_log "$log"
-    echo "starting $command, logging to $log"
-    nohup nice -n "$LIVY_NICENESS" $command >> "$log" 2>&1 < /dev/null &
-    newpid="$!"
-    echo "$newpid" > "$pid"
-    sleep 2
-    # Check if the process has died; in that case we'll tail the log so the user can see
-    if [[ ! $(ps -p "$newpid" -o comm=) =~ "java" ]]; then
-      echo "failed to launch $command:"
-      tail -2 "$log" | sed 's/^/  /'
-      echo "full log in $log"
-      rm -rf "$pid"
-      exit 1
+    if [ -z $CONSOLE_MODE ]; then 
+      livy_rotate_log "$log"
+      echo "starting $command, logging to $log"
+      nohup nice -n "$LIVY_NICENESS" $command >> "$log" 2>&1 < /dev/null &
+      newpid="$!"
+      echo "$newpid" > "$pid"
+      sleep 2
+      # Check if the process has died; in that case we'll tail the log so the user can see
+      if [[ ! $(ps -p "$newpid" -o comm=) =~ "java" ]]; then
+        echo "failed to launch $command:"
+        tail -2 "$log" | sed 's/^/  /'
+        echo "full log in $log"
+        rm -rf "$pid"
+        exit 1
+      fi
+    else 
+      # Run in console mode
+      echo Starting Livy with command `$command`
+      nice -n "$LIVY_NICENESS" $command 
     fi
   fi
 }
