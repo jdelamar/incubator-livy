@@ -5,6 +5,8 @@ DOCKER_VER := $(if $(DOCKER_VER),$(DOCKER_VER),latest)
     
 DOCKER_FILE := Dockerfile
 
+BUILD_SKIP_TESTS := $(if $(BUILD_SKIP_TESTS),$(BUILD_SKIP_TESTS),)
+
 all: docker
 
 docker: .FORCE
@@ -13,7 +15,7 @@ docker: .FORCE
 push: docker
 	docker push $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER)
 
-circleci-push: 
+circleci-push: circleci-docker
 	docker push $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER)
 
 circleci-docker: .FORCE

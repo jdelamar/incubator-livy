@@ -19,9 +19,16 @@ RUN cd  /opt/apache-livy-src && rm Dockerfile* Makefile
 # Enable console mode: This will keep the server in foreground. Suitable for docker deployment
 ENV CONSOLE_MODE true
 
-## Joel TODO: Test seems flaky on integration build on CircleCI.. investigate.
+## Joel TODO: Test seems flaky on integration build on CircleCI...
+# SETTING BUILD_SKIP_TESTS will skip the tests for this build:
+ENV BUILD_SKIP_TESTS $BUILD_SKIP_TESTS
+
 RUN cd /opt/apache-livy-src && \
-  mvn package -DskipTests
+  if [ -z BUILD_SKIP_TESTS ]; then \
+    mvn package ; \
+  else \ 
+    mvn package -DskipTests ; \
+  fi
 
 ENV PATH /opt/sbt/bin:$PATH
 
