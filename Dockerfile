@@ -17,7 +17,7 @@ COPY . /opt/apache-livy-src
 RUN cd  /opt/apache-livy-src && rm Dockerfile* Makefile 
 
 RUN cd /opt/apache-livy-src && \
-  mvn package
+  mvn package -DskipTests
 
 ENV PATH /opt/sbt/bin:$PATH
 
