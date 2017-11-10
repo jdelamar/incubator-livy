@@ -1,0 +1,20 @@
+FROM gcr.io/npav-172917/spark-2.2.0-hadoop-2.7:latest
+
+RUN apt-get update && \
+    apt-get install -y bc vim wget git maven python-dev libkrb5-dev gcc r-base r-base-dev && \
+    apt-get clean 
+
+RUN pip install setuptools pyhocon cloudpickle requests requests-kerberos flake8 flaky pytest
+
+COPY . /opt/apache-livy-src
+
+
+RUN cd  /opt/apache-livy-src && rm Dockerfile* Makefile 
+
+#COPY ./docker-entrypoint.sh /
+#RUN chmod +x /docker-entrypoint.sh
+#
+#ENTRYPOINT ["/docker-entrypoint.sh"]
+
+
+
