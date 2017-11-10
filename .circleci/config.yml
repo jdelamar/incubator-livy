@@ -23,7 +23,7 @@ jobs:
           command: docker login -u ${GCR_DOCKER_RO_USERNAME} -p "$(echo $GCR_DOCKER_RO_PASSWORD)" https://gcr.io
 
       - run:
-          name: "Building project
+          name: "Building project"
           command: make circleci-docker
 
       - run:
