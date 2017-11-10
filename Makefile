@@ -13,7 +13,7 @@ docker: .FORCE
 push: docker
 	docker push $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER)
 
-circleci-push: circleci-docker
+circleci-push: 
 	docker push $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER)
 
 circleci-docker: .FORCE
