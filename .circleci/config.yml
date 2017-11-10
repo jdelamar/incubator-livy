@@ -6,26 +6,25 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: gcr.io/npav-172917/docker-go-sdk:1.0.1-alpine
+        auth:
+          username: ${GCR_DOCKER_RO_USERNAME}
+          password: ${GCR_DOCKER_RO_PASSWORD}
 
     working_directory: ~/repo
     steps:
       - checkout   
 
-      - run:
-          name: "installing make"
-          command: sudo apt-get update && sudo apt-get -y install make
-
       - setup_remote_docker
-
       - run:
           name: "Login into NPAV GCE docker repository" 
-          # command: docker login -u ${GCR_DOCKER_RO_USERNAME} -p "$(echo $GCR_DOCKER_RO_PASSWORD)" https://gcr.io
           command: docker login -u _json_key -p "$(echo $GCR_DOCKER_RW_PASSWORD)" https://gcr.io
 
       - run:
           name: "Building project"
           command: make circleci-docker
+
+
 
       - run:
           name: "Push image to GCR"
