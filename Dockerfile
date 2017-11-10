@@ -3,7 +3,9 @@ FROM gcr.io/npav-172917/spark-2.2.0-hadoop-2.7:latest
 RUN apt-get update && \
     apt-get install -y bc vim wget git maven python-dev \
                        libkrb5-dev gcc r-base r-base-dev \
-                       libsnappy1.0.3-java python3 python3-dev && \
+                       libsnappy1.0.3-java python3 python3-dev \
+                       python-setuptools && \
+    easy_install pip && pip install --upgrade pip setuptools && \
     apt-get clean 
 
 RUN pip install setuptools pyhocon cloudpickle requests requests-kerberos flake8 flaky pytest
