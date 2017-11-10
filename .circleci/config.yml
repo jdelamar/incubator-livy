@@ -26,10 +26,6 @@ jobs:
           command: docker login -u _json_key -p "$(echo $GCR_DOCKER_RW_PASSWORD)" https://gcr.io
 
       - run:
-          name: "Building project"
-          command: make circleci-docker
-
-      - run:
           name: "Push image to GCR"
           command: |
             # Only push docker image when on master branch on the Accedian project
