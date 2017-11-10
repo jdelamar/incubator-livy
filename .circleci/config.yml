@@ -16,8 +16,8 @@ jobs:
       - checkout   
 
       - run:
-          name: "installing make"
-          command: sudo apt-get update && sudo apt-get -y install make
+          name: "Building project"
+          command: make circleci-docker
 
       - setup_remote_docker
 
