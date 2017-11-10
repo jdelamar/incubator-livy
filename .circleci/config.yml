@@ -15,15 +15,16 @@ jobs:
     steps:
       - checkout   
 
+      - setup_remote_docker
+      - run:
+          name: "Login into NPAV GCE docker repository" 
+          command: docker login -u _json_key -p "$(echo $GCR_DOCKER_RW_PASSWORD)" https://gcr.io
+
       - run:
           name: "Building project"
           command: make circleci-docker
 
-      - setup_remote_docker
 
-      - run:
-          name: "Login into NPAV GCE docker repository" 
-          command: docker login -u _json_key -p "$(echo $GCR_DOCKER_RW_PASSWORD)" https://gcr.io
 
       - run:
           name: "Push image to GCR"
